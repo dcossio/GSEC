@@ -1,2 +1,2 @@
 # GSEC
-SCripts for automating GSEC processing 
+Scripts for automating GSEC processing 
