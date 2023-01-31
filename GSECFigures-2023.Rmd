@@ -1,0 +1,82 @@
+---
+title: "GSEC Figures"
+author: "Daniela Cossio"
+date: "1/31/2023"
+output: html_document
+---
+```{r adding libraries,echo=FALSE, results='hide',message=FALSE}
+library(ggplot2)
+#(plyr)
+library(tidyverse)
+# library(dplyr)
+# library(tidyr)
+library(stringr)
+# library(data.table)
+# library(network)
+# library(tidygraph)
+# library(ggraph)
+# library(igraph)
+# library(networkD3)
+# library(CINNA)
+# library(umap)
+# library(plotly)
+#library(factoextra)
+#library(lsr)
+# library(car)
+library(ggpubr)
+#library(entropy)
+#library(ds4psy)
+# library(pROC)
+#library(devtools)
+#library(BRRR)
+#library(stats)
+#library(afex)
+library(knitr)
+
+# colors
+library(nationalparkcolors) 
+
+
+```
+
+```{css, echo=FALSE}
+h1, h2 {
+  text-align: center;
+  color: Black;
+  font-weight: bold;
+}
+```
+# GSEC 2023 closing survey figures and data 
+
+## <span style="color: darkblue;">Mentees </span>  {.tabset .tabset-dropdown}
+```{r read in files,,echo=FALSE, results='hide',message=FALSE }
+working_dir <- "/Users/danielacossio/Desktop/GSEC" 
+setwd(working_dir)
+surveyQs <- c("How happy were you with your paired mentors overall?","Did you get in touch with your mentors as often as you had liked?", "How happy are you overall with Científico Latino GSEC program?", "Did being part of GSEC help you navigate your 1st yr of grad school in any way?","Did being part of GSEC help you build community or feel empowered as a 1st year in any way?")
+
+mentee_scalerates <-
+  read.csv('Mentee_closingdata2023.csv') %>% `colnames<-`(c('rating', surveyQs[1:3]))
+
+mentee_yesno <- 
+  read.csv('Mentee_closingdata2023_2.csv') %>% `colnames<-`(c('Yes or No', surveyQs[4:5]))
+
+```
+
+### span style="color: black;"> How happy were you with your paired mentors overall? </span>
+```{r Creating pie charts }
+
+pie(mentee_scalerates$`How happy were you with your paired mentors overall?`,labels = mentee_scalerates$rating, col = park_palette("MtRainier"), main = "How happy were you with your paired mentors overall?" )
+
+```
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
