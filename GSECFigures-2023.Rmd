@@ -48,35 +48,131 @@ h1, h2 {
 ```
 # GSEC 2023 closing survey figures and data 
 
-## <span style="color: darkblue;">Mentees </span>  {.tabset .tabset-dropdown}
-```{r read in files,,echo=FALSE, results='hide',message=FALSE }
+## <span style="color: darkblue;">Mentees </span> 
+```{r read in files,echo=FALSE, results='hide',message=FALSE}
 working_dir <- "/Users/danielacossio/Desktop/GSEC" 
 setwd(working_dir)
-surveyQs <- c("How happy were you with your paired mentors overall?","Did you get in touch with your mentors as often as you had liked?", "How happy are you overall with Científico Latino GSEC program?", "Did being part of GSEC help you navigate your 1st yr of grad school in any way?","Did being part of GSEC help you build community or feel empowered as a 1st year in any way?")
+menteesurveyQs <- c("How happy were you with your paired mentors overall?","Did you get in touch with your mentors as often as you had liked?", "How happy are you overall with Científico Latino GSEC program?", "Did being part of GSEC help you navigate your 1st yr of grad school in any way?","Did being part of GSEC help you build community or feel empowered as a 1st year in any way?")
 
-mentee_scalerates <-
-  read.csv('Mentee_closingdata2023.csv') %>% `colnames<-`(c('rating', surveyQs[1:3]))
+ratinglbs <- c("Unsatisfied", "Neutral", "satisfied")
+
+DF <-
+  read.csv('ClosingSurvey.csv')
+
+mentee_scalerates <- DF[,1:4] %>% `colnames<-`(c('rating', menteesurveyQs[1:3]))
+mentee_scalerates[1,] <- mentee_scalerates[1,]+mentee_scalerates[2,] 
+mentee_scalerates[4,] <- mentee_scalerates[4,]+mentee_scalerates[5,] 
+mentee_scalerates <- mentee_scalerates[-c(2,5),]
 
 mentee_yesno <- 
-  read.csv('Mentee_closingdata2023_2.csv') %>% `colnames<-`(c('Yes or No', surveyQs[4:5]))
+  DF[1:2,9:11] %>% `colnames<-`(c('rating', menteesurveyQs[4:5]))
 
 ```
 
-### span style="color: black;"> How happy were you with your paired mentors overall? </span>
-```{r Creating pie charts }
+### <span style="color: black;">How happy were you with your paired mentors overall??</span>
+```{r Creating pie charts,echo=FALSE, results='hide',message=FALSE }
+# We need to sum a couple of columns so 
+#jpeg("rplot1.jpg")
 
-pie(mentee_scalerates$`How happy were you with your paired mentors overall?`,labels = mentee_scalerates$rating, col = park_palette("MtRainier"), main = "How happy were you with your paired mentors overall?" )
 
+vals <- paste0(round(100 * mentee_scalerates$`How happy were you with your paired mentors overall?`/sum(mentee_scalerates$`How happy were you with your paired mentors overall?`), 2), "%")
+
+pie(mentee_scalerates$`How happy were you with your paired mentors overall?`,labels = vals, col = park_palette("MtRainier"), main = "How happy were you with your paired mentors overall?" )
+
+legend("topleft", legend = ratinglbs,
+       fill =  park_palette("MtRainier"))
+
+#dev.off()
+```
+
+### <span style="color: black;">Did you get in touch with your mentors as often as you had liked?</span>
+```{r chart 2,echo=FALSE, results='hide',message=FALSE }
+# We need to sum a couple of columns so 
+#jpeg("rplot2.jpg")
+vals2 <- paste0(round(100 * mentee_scalerates$`Did you get in touch with your mentors as often as you had liked?`/sum(mentee_scalerates$`Did you get in touch with your mentors as often as you had liked?`), 2), "%")
+
+pie(mentee_scalerates$`Did you get in touch with your mentors as often as you had liked?`,labels = vals2, col = park_palette("MtRainier"), main = "Did you get in touch with your mentors as often as you had liked?" )
+legend("topleft", legend = ratinglbs,
+       fill =  park_palette("MtRainier"))
+#dev.off()
+```
+
+### <span style="color: black;">How happy are you overall with Científico Latino GSEC program?</span>
+```{r chart 3,echo=FALSE, results='hide',message=FALSE }
+# We need to sum a couple of columns so 
+#jpeg("rplot3.jpg")
+vals3 <- paste0(round(100 * mentee_scalerates$`How happy are you overall with Científico Latino GSEC program?`/sum(mentee_scalerates$`How happy are you overall with Científico Latino GSEC program?`), 2), "%")
+
+pie(mentee_scalerates$`How happy are you overall with Científico Latino GSEC program?`,labels = vals3, col = park_palette("MtRainier"), main = "How happy are you overall with Científico Latino GSEC program" )
+legend("topleft", legend = ratinglbs,
+       fill =  park_palette("MtRainier"))
+#dev.off()
+```
+
+### <span style="color: black;">Did being part of GSEC help you navigate your 1st yr of grad school in any way??</span>
+```{r chart 4,echo=FALSE, results='hide',message=FALSE }
+# We need to sum a couple of columns so 
+#jpeg("rplot4.jpg")
+yesno_lbs <- c("Yes", "No")
+vals4 <- paste0(round(100 * mentee_yesno$`Did being part of GSEC help you navigate your 1st yr of grad school in any way?`/sum(mentee_yesno$`Did being part of GSEC help you navigate your 1st yr of grad school in any way?`), 2), "%")
+
+pie(mentee_yesno$`Did being part of GSEC help you navigate your 1st yr of grad school in any way?`,labels = vals4, col = park_palette("MtRainier"))
+legend("topleft", legend = yesno_lbs,
+       fill =  park_palette("MtRainier"))
+#dev.off()
+```
+
+### <span style="color: black;"> Did being part of GSEC help you build community or feel empowered as a 1st year in any way?</span> 
+```{r chart 5,echo=FALSE, results='hide',message=FALSE }
+# We need to sum a couple of columns so 
+#jpeg("rplot5.jpg")
+
+yesno_lbs <- c("Yes", "No")
+vals4 <- paste0(round(100 * mentee_yesno$`Did being part of GSEC help you build community or feel empowered as a 1st year in any way?`/sum(mentee_yesno$`Did being part of GSEC help you build community or feel empowered as a 1st year in any way?`), 2), "%")
+
+pie(mentee_yesno$`Did being part of GSEC help you build community or feel empowered as a 1st year in any way?`,labels = vals4, col = park_palette("MtRainier"))
+legend("topleft", legend = yesno_lbs,
+       fill =  park_palette("MtRainier"))
+#dev.off()
 ```
 
 
 
-## Including Plots
+## <span style="color: darkblue;">Mentors </span> 
 
-You can also embed plots, for example:
+```{r grabbing variables, echo=FALSE, results='hide',message=FALSE}
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+mentorsurveyQs <- c("How helpful do you think your monthly mentor meetings were to your mentees?", "How happy were you with the CL-GSEC program?", "Overall, how was your experience in the GSEC program?")
+
+mentor_scale <- DF[,c(1,5,6)] %>% `colnames<-`(c('rating', mentorsurveyQs[1:2]))
+mentor_scale[1,] <- mentor_scale[1,]+mentor_scale[2,] 
+mentor_scale[4,] <- mentor_scale[4,]+mentor_scale[5,] 
+mentor_scale <- mentor_scale[-c(2,5),]
+
+mentor_overall <- DF[1:3,7:8] %>% `colnames<-`(c('rating', mentorsurveyQs[3]))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## <span style="color: darkblue;">How helpful do you think your monthly mentor meetings were to your mentees? </span> 
+
+```{r chart 6,echo=FALSE, results='hide',message=FALSE}
+
+#jpeg("rplot6.jpg")
+vals5 <- paste0(round(100 * mentor_scale$`How helpful do you think your monthly mentor meetings were to your mentees?`/sum(mentor_scale$`How helpful do you think your monthly mentor meetings were to your mentees?`), 2), "%")
+
+pie(mentor_scale$`How helpful do you think your monthly mentor meetings were to your mentees?`,labels = vals5, col = park_palette("MtRainier"))
+legend("topleft", legend = ratinglbs,
+       fill =  park_palette("MtRainier"))
+
+#dev.off()
+```
+
+
+
+
+
+
+
+
+
+
+
